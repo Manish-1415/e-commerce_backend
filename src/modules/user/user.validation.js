@@ -5,12 +5,8 @@ export const registerUserSchemaToValidate = j.object({
   fullname: j.string().required(),
   email: j.string().email().required(),
   password: j.string().min(6).required(),
-  role: j.string().valid("user", "admin", "seller").required(),
+  role: j.string().valid("user", "admin").required(),
 });
-
-
-
-
 
 // Creating middleware here itself
 import ApiError from "../../utils/ApiError.utility.js";

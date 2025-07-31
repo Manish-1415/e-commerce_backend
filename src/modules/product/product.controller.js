@@ -1,0 +1,6 @@
+const createProduct = () => {
+
+}
+
+
+export {createProduct};
