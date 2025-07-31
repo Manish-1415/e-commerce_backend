@@ -8,6 +8,10 @@ const RegisterUserService = {
         try {
             let { fullname , email , password , role } = userData;  // I changed var declaration to let because const will not let us change the default value
 
+            const checkIfUserAlreadyExist = await User.findOne({email});
+
+            if(checkIfUserAlreadyExist) throw new ApiError(400 , "User Already Exist , Please Provide Correct Credentials");
+
             const hashThePassword = await bcrypt.hash(password , 10);
 
             if(!hashThePassword) throw new ApiError(500 , "Error Occurred While Hashing the password");
