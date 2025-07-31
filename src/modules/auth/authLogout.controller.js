@@ -5,8 +5,6 @@ import AuthLogOutService from "./authLogout.service.js";
 const logOutUser = async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
   // const accessToken = req.headers.accessToken;     In logout no need of access token
-  
-  if(!refreshToken) throw new ApiError(400 , "No Refresh Token Found in Cookie");
 
   const validateTheUserForLogout = await AuthLogOutService.validateUserToLogout(
     refreshToken

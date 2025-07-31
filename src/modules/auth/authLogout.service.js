@@ -5,6 +5,9 @@ import { User } from "../user/user.model.js";
 const AuthLogOutService = {
   validateUserToLogout: async (refreshToken) => {
     try {
+      if (!refreshToken)
+        throw new ApiError(400, "No Refresh Token Found in Cookie");
+
       const validateRefreshToken = jwt.verify(
         refreshToken,
         process.env.REFRESH_TOKEN_SECRET_KEY
@@ -13,25 +16,24 @@ const AuthLogOutService = {
 
       // No need to throw error , if expiry or secret key nothing match then verify() throws error , no need to manually throw
 
-        const payloadData = validateRefreshToken;
+      const payloadData = validateRefreshToken;
 
-        const checkUserInDB = await User.findById({ _id: payloadData._id });
+      const checkUserInDB = await User.findById({ _id: payloadData._id });
 
-        if (!checkUserInDB)
-          throw new ApiError(
-            404,
-            "User Not Found In DB , Please Provide Valid Refresh Token"
-          );
+      if (!checkUserInDB)
+        throw new ApiError(
+          404,
+          "User Not Found In DB , Please Provide Valid Refresh Token"
+        );
 
-        checkUserInDB.refreshToken = "";
+      checkUserInDB.refreshToken = "";
 
-        const logOutUser = await checkUserInDB.save();
+      const logOutUser = await checkUserInDB.save();
 
-        return logOutUser;
-      
+      return logOutUser;
     } catch (error) {
-        console.log("LogOut Error :",error);
-        throw new ApiError(500 , "Error Occur While Logout")
+      console.log("LogOut Error :", error);
+      throw new ApiError(500, "Error Occur While Logout");
     }
   },
 };
