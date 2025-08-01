@@ -22,7 +22,7 @@ const ProductService = {
   getSingleProductById: async (productId) => {
     const getProduct = await Product.findById({ id: productId });
 
-    if (!getProduct) throw new ApiError(500, "Please recheck the Product ID");
+    if (!getProduct) throw new ApiError(400 , "Provided Product Id is not valid");
 
     return getProduct;
   },

@@ -13,5 +13,7 @@ router.route("/").get(getAllProducts); // User , Admin , and any other who is no
 
 router.route("/:id").get(getProductById);
 
+router.route("/:id").put()
+
 
 export default router;

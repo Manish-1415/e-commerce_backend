@@ -31,10 +31,15 @@ export const getAllProducts = async (req, res, next) => {
 };
 
 export const getProductById = async (req, res, next) => {
-  const productId = req.params._id; // We will get the id from parameters
+  const productId = req.params.id; // We will get the id from parameters
   const getProduct = await ProductService.getSingleProductById(productId);
 
   return res
     .status(200)
     .json(new ApiResponse(200, "Product fetch successfully from DB"));
 };
+
+
+export const updateProductById = async (req , res , next) => {
+  const productId = req.params.id;
+}
