@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { createProduct, getProductById } from "./product.controller";
+import { createProduct, deleteProductById, getProductById } from "./product.controller";
 import { validateReqBodyForProduct } from "./product.validation";
 import { createProductSchema } from "./product.validation";
 import { getAllProducts } from "./product.controller";
@@ -15,6 +15,8 @@ router.route("/").get(getAllProducts); // User , Admin , and any other who is no
 router.route("/:id").get(getProductById);
 
 router.route("/:id").put(upload.single("image"),updateProductById);
+
+router.route("/:id").delete(deleteProductById);
 
 
 export default router;

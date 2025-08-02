@@ -69,6 +69,24 @@ const ProductService = {
       return updatedProduct;
     }
   },
+
+  deleteProduct: async (productId) => {
+    // Before Deleting the Product , we have to delete the Image which is on cloudinary
+
+    let findProductEntry = await Product.findById(productId);
+
+    if (!findProductEntry)
+      throw new ApiError(404, "Product Entry Not Found In DB");
+
+    await deleteFileFromCloudinary(findProductEntry.image); //File deleted from cloudinary
+
+    const deleteProductFromDB = await Product.findByIdAndDelete(productId);
+
+    if (!deleteProductFromDB)
+      throw new ApiError(500, "Error Occurred while deleting the Product");
+
+    return deleteProductFromDB;
+  },
 };
 
 export default ProductService;

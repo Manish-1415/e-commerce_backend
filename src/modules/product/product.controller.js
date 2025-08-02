@@ -55,3 +55,13 @@ export const updateProductById = async (req, res, next) => {
       new ApiResponse(200, "Product Updated Successfully !", updateProduct)
     );
 };
+
+export const deleteProductById = async (req, res, next) => {
+  const deletedProduct = await ProductService.deleteProduct(req.params.id);
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, "Product Deleted SuccessFully !", deletedProduct)
+    );
+};
