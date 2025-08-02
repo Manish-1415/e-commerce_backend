@@ -36,10 +36,22 @@ export const getProductById = async (req, res, next) => {
 
   return res
     .status(200)
-    .json(new ApiResponse(200, "Product fetch successfully from DB"));
+    .json(
+      new ApiResponse(200, "Product fetch successfully from DB", getProduct)
+    );
 };
 
+export const updateProductById = async (req, res, next) => {
+  // We are not changing some fields , we are changing whole object directly .
+  const updateProduct = await ProductService.updateProduct(
+    req.params.id,
+    req.body,
+    req.file
+  );
 
-export const updateProductById = async (req , res , next) => {
-  const productId = req.params.id;
-}
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, "Product Updated Successfully !", updateProduct)
+    );
+};

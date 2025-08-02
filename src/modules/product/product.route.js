@@ -4,6 +4,7 @@ import { validateReqBodyForProduct } from "./product.validation";
 import { createProductSchema } from "./product.validation";
 import { getAllProducts } from "./product.controller";
 import {upload} from "../../middlewares/multer.middleware"
+import { updateProductById } from "./product.controller";
 
 const router = Router();
 
@@ -13,7 +14,7 @@ router.route("/").get(getAllProducts); // User , Admin , and any other who is no
 
 router.route("/:id").get(getProductById);
 
-router.route("/:id").put()
+router.route("/:id").put(upload.single("image"),updateProductById);
 
 
 export default router;
