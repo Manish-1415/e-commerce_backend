@@ -28,7 +28,7 @@ const CartService = {
       if (!createCartForUser)
         throw new ApiError(500, "Error Occurred while creating Cart");
 
-      return createCartForUser; //Created Cart will be send
+      return createCartForUser; //Created Cart will be send from here itself.
     }
 
     //If Cart Already Created
@@ -47,7 +47,7 @@ const CartService = {
     // Now if that product not exist already then we have to create new Object , we get that productId from User , and earlier we simply take that product id and find the product from DB , now we have to add that product into Cart
     else {
       const newProduct = {
-        product: findProduct._id,
+        product: findProduct._id, //here i can simply put cartData.productId instead this , but what we did here is we fetch the product from the DB for finding if that product is valid or not , so here simply we reuse the properties of finded product from DB
         quantity: cartData.productQuantity,
         price: findProduct.price,
       };
@@ -73,6 +73,104 @@ const CartService = {
     await findCartById.save();
 
     return findCartById;
+  },
+
+  updateCartService: async (userId, cartData, productId) => {
+    // find if this user have cart by this Id
+    let checkIfUserHaveCart = await Cart.findOne({ user: userId });
+
+    if (!checkIfUserHaveCart)
+      throw new ApiError(
+        400,
+        "User dont have Cart to Update , first Create One"
+      );
+    // No need for this because this route will only get called when we have a product inside a Cart
+
+    // But if Cart is there then update its field
+
+    let findThatProductFromCart = checkIfUserHaveCart.items.find(
+      (product) => product._id.toString() === productId.toString()
+    );
+    // Why toString() , because inside that entry it is stored as ObjectId , but we get string by user that's why
+    // here logic is changed , we will be getting the productId from params
+
+    if (!findThatProductFromCart)
+      throw new ApiError(404, "Product not found for Update");
+
+    // If that product Exist then first check if cartData's value is positive or negative
+    if (cartData.productQuantity > 0)
+      // No need of this also but for safety we are doing this
+      findThatProductFromCart.quantity += cartData.productQuantity;
+    // 0 will never be the case cause from frontend itself we will send values greater than or equal 1
+
+    // In frontend we will make the cart quantity change logic just like Amazon's Cart
+
+    // Now here update the TotalItems and TotalPrice
+
+    checkIfUserHaveCart.totalItems = checkIfUserHaveCart.items.reduce(
+      (acc, product) => acc + product.quantity,
+      0
+    );
+    checkIfUserHaveCart.totalPrice = checkIfUserHaveCart.items.reduce(
+      (acc, product) => acc + product.price * product.quantity,
+      0
+    );
+
+    // Now simply save the Cart
+
+    await checkIfUserHaveCart.save();
+
+    return checkIfUserHaveCart;
+  },
+
+  deleteProductService: async (productId, userId) => {
+    let checkUserHaveCart = await Cart.findOne({ user: userId });
+
+    if (!checkUserHaveCart)
+      throw new ApiError(400, "Cart does not exist to perform this operation");
+
+    const checkIfProductExistInCart = checkUserHaveCart.items.find(
+      (product) => product._id.toString() === productId.toString()
+    );
+    // Now if this true then simply delete the product from cart
+
+    if (!checkIfProductExistInCart)
+      throw new ApiError(404, "Product not Found to perform delete Operation");
+
+    const newItemsArray = checkUserHaveCart.items.filter(
+      (product) => product._id.toString() !== productId.toString()
+    );
+    // here that product will be removed
+
+    // Now update the items array
+    checkUserHaveCart.items = newItemsArray;
+
+    checkUserHaveCart.totalItems = checkUserHaveCart.items.reduce(
+      (acc, product) => acc + product.quantity,
+      0
+    );
+    checkUserHaveCart.totalPrice = checkUserHaveCart.items.reduce(
+      (acc, product) => acc + product.quantity * product.price,
+      0
+    );
+
+    // Now save and return the updated Cart.
+    await checkUserHaveCart.save();
+
+    return checkUserHaveCart;
+  },
+
+  getCartService: async (userId) => {
+    const checkIfUserHaveCart = await Cart.findOne({ user: userId })
+      .populate("items.product")
+      .lean();
+    // By populate now the project : ObjectId will replace with that product objects field , now user can see the Cart perfectly.
+    // By .lean() method our mongoose document will be converted into plain JS object , but why ? because without this by default mongoose doc will have .save() , .validate() etc., methods and we dont need it because we are simply providing Cart by GET method thats why
+
+    if (!checkIfUserHaveCart)
+      throw new ApiError(404, "User Dont have any Cart");
+
+    return checkIfUserHaveCart;
   },
 };
 

@@ -8,6 +8,11 @@ export const cartSchemaValidation = j.object({
 
 // Middleware for checking if req body have the product Id and Quantity
 
+export const updateCartSchemaValidation = j.object({
+  productQuantity: j.number().required(),
+});
+
+
 export const validateReqBodyForCart = (schema = (req, res, next) => {
   try {
     const { error, value } = schema.validate(req.body);
