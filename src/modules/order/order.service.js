@@ -76,6 +76,23 @@ const OrderService = {
 
     return createEntryOfOrder;
   },
+
+
+
+
+  getUserOrders : async (userId) => {
+    // Find Orders from UserId 
+    const findOrderForUser = await Order.find({user : userId});
+
+    if(!findOrderForUser) throw new ApiError(404 , "No Order Found for User");
+
+    // if user have orders then send it
+
+    return findOrderForUser;
+
+  },
+
+
 };
 
 export default OrderService;

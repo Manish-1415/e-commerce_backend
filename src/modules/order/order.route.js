@@ -1,10 +1,14 @@
 import { Router } from "express";
-import { createOrder } from "./order.controller";
+import { createOrder, getMyOrders } from "./order.controller";
+import authMiddleware from "../../middlewares/auth.middleware";
+
 
 const router = Router();
 
 
-router.route("/").post(createOrder);
+router.route("/").post(authMiddleware , createOrder);
+
+router.route("/orders/my").get(authMiddleware , getMyOrders);
 
 
 

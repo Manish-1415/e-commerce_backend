@@ -23,6 +23,8 @@ app.use("/auth", renewTokenRouter); // Redirect to the route of renewAccessToken
 
 app.use("/api/cart", cartRouter);
 
-app.use("/api/checkout", orderRouter);
+app.use("/api/v1/checkout", orderRouter);
+
+app.use("/api/v1", orderRouter);
 
 export default app;
