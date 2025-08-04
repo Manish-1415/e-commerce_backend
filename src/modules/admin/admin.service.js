@@ -13,7 +13,7 @@ const AdminService = {
 
   setOrderStatus : async (orderId , newOrderStatus) => {
     // Find the Order first
-    let getOrderById = await Order.findByID(orderId);
+    let getOrderById = await Order.findById(orderId);
 
     if(!getOrderById) throw new ApiError(400 , "Order does not valid / not exist");
 
@@ -22,6 +22,16 @@ const AdminService = {
     await getOrderById.save();
 
     return getOrderById;
+  },
+
+
+
+  getOrderDetails : async (orderId) => {
+    const getOrderByItsId = await Order.findById(orderId);
+
+    if(!getOrderByItsId) throw new ApiError(400 , "Order Not Found to get Details");
+
+    return getOrderByItsId;
   }
 };
 

@@ -22,3 +22,16 @@ export const updateSpecificOrderStatus = async (req , res , next) => {
     .status(200)
     .json(new ApiResponse(200 , "New Orders Status saved successfully !" , setNewOrderStatus));
 }
+
+
+
+export const getDetailsOfOrder = async (req , res , next) => {
+    // By this controller admin will get the Order and send it
+    const orderId = req.params.id;
+
+    const getOrderDetails = await AdminService.getOrderDetails(orderId);
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200 , "Oder fetched Successfully !", getOrderDetails));
+}
