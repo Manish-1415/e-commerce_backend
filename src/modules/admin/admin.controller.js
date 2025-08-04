@@ -35,3 +35,25 @@ export const getDetailsOfOrder = async (req , res , next) => {
     .status(200)
     .json(new ApiResponse(200 , "Oder fetched Successfully !", getOrderDetails));
 }
+
+ 
+export const getUsersForAdmin = async (req , res , next) => {
+    const getUsers = await AdminService.getUsersForAdmin();
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200 , "All Users fetched For Admin", getUsers));
+}
+
+
+export const getUserById = async (req , res , next) => {
+    const getUserId = req.params.id;
+
+    const getSpecificUser = await AdminService.getUserByIdForAdmin(getUserId);
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200 , "User Found By Id", getSpecificUser));
+}
+
+

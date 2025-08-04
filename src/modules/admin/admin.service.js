@@ -1,5 +1,6 @@
 import Order from "../order/order.model.js";
 import ApiError from "../../utils/ApiError.utility.js";
+import { User } from "../user/user.model.js";
 
 const AdminService = {
   getAllOrders: async () => {
@@ -32,6 +33,26 @@ const AdminService = {
     if(!getOrderByItsId) throw new ApiError(400 , "Order Not Found to get Details");
 
     return getOrderByItsId;
+  },
+
+
+  getUsersForAdmin : async () => {
+    // Find If we have users
+    const findUsers = await User.find();
+
+    if(!findUsers) throw new ApiError(400 , "No Users Present Until Now");
+
+    return findUsers;
+  },
+
+
+  getUserByIdForAdmin : async (getUserById) => {
+    // find the user first
+    const findUser = await User.findById(getUserById);
+
+    if(!findUser) throw new ApiError(400 , "User not exist");
+
+    return findUser;
   }
 };
 

@@ -28,6 +28,6 @@ app.use("/api/v1/checkout", orderRouter);
 
 app.use("/api/v1", orderRouter);
 
-app.use("/api/v1", adminRouter);
+app.use("/api/v1/admin", adminRouter);
 
 export default app;
