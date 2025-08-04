@@ -90,7 +90,17 @@ const OrderService = {
 
     return findOrderForUser;
 
-  },
+  }, 
+
+
+
+  getUserOrderById : async (orderId) => {
+    const checkIfOrderIsInResource = await Order.findOne({_id : orderId});
+
+    if(!checkIfOrderIsInResource) throw new ApiError(400 , "Provided Id of Order is Invalid");
+
+    return checkIfOrderIsInResource;
+  }
 
 
 };

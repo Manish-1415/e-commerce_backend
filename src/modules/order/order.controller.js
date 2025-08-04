@@ -22,3 +22,15 @@ export const getMyOrders = async (req , res , next) => {
     .status(200)
     .json(new ApiResponse(200 , "This are Users Order", getUsersOrder));
 }
+
+
+
+export const getMyOrderById = async (req , res , next) => {
+    const orderId = req.params.id;
+    // I have not used the Id of loggedIn user cause i will be checking the ownership from our ownershipcheck middleware
+    const getOrderById = await OrderService.getUserOrderById(orderId);
+
+    return res
+    .status(200)
+    .json(new ApiResponse(200 , "Order get from DB now sending to user (single order)", getOrderById));
+}
