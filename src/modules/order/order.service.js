@@ -38,7 +38,7 @@ const OrderService = {
 
     // Now for OrderItems logic is done, now we will move towards the pricing section
     const itemsPrice = findIfUserHaveCart.items.reduce(
-      (acc , item) => acc + item.quantity * price,
+      (acc, item) => acc + item.quantity * price,
       0
     );
     //By this reduce method we will get exact price of all the items inside in the Cart
@@ -68,7 +68,6 @@ const OrderService = {
     if (!createEntryOfOrder)
       throw new ApiError(500, "Error Occurred while Creating Order");
 
-
     // Clear the cart now
     findIfUserHaveCart.items = [];
 
@@ -77,32 +76,25 @@ const OrderService = {
     return createEntryOfOrder;
   },
 
+  getUserOrders: async (userId) => {
+    // Find Orders from UserId
+    const findOrderForUser = await Order.find({ user: userId });
 
-
-
-  getUserOrders : async (userId) => {
-    // Find Orders from UserId 
-    const findOrderForUser = await Order.find({user : userId});
-
-    if(!findOrderForUser) throw new ApiError(404 , "No Order Found for User");
+    if (!findOrderForUser) throw new ApiError(404, "No Order Found for User");
 
     // if user have orders then send it
 
     return findOrderForUser;
+  },
 
-  }, 
+  getUserOrderById: async (orderId) => {
+    const checkIfOrderIsInResource = await Order.findOne({ _id: orderId });
 
-
-
-  getUserOrderById : async (orderId) => {
-    const checkIfOrderIsInResource = await Order.findOne({_id : orderId});
-
-    if(!checkIfOrderIsInResource) throw new ApiError(400 , "Provided Id of Order is Invalid");
+    if (!checkIfOrderIsInResource)
+      throw new ApiError(400, "Provided Id of Order is Invalid");
 
     return checkIfOrderIsInResource;
-  }
-
-
+  },
 };
 
 export default OrderService;

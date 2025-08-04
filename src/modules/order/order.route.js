@@ -7,15 +7,13 @@ import checkOwnerShip from "../../middlewares/checkownerShip.middleware";
 
 const router = Router();
 
+router.route("/").post(authMiddleware, checkIfHeIsUser, createOrder);
 
-router.route("/").post(authMiddleware , checkIfHeIsUser  , createOrder);
+router.route("/orders/my").get(authMiddleware, getMyOrders);
 
-router.route("/orders/my").get(authMiddleware , getMyOrders);
-
-router.route("/orders/:id").get(authMiddleware ,  checkOwnerShip(Order) , getMyOrderById);
+router
+  .route("/orders/:id")
+  .get(authMiddleware, checkOwnerShip(Order), getMyOrderById);
 //used ownership middleware here ,
-
-
-
 
 export default router;
