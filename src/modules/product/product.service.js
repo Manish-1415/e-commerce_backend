@@ -1,7 +1,7 @@
-import ApiError from "../../utils/ApiError.utility";
-import uploadOnCloudinary from "../../utils/cloudinary.utility";
-import { Product } from "./product.model";
-import deleteFileFromCloudinary from "../../utils/deleteFromCloudinary.utility";
+import ApiError from "../../utils/ApiError.utility.js";
+import uploadOnCloudinary from "../../utils/cloudinary.utility.js";
+import { Product } from "./product.model.js";
+import deleteFileFromCloudinary from "../../utils/deleteFromCloudinary.utility.js";
 
 const ProductService = {
   createProductInDB: async (productData) => {
@@ -13,8 +13,8 @@ const ProductService = {
     return saveProductInDB;
   },
 
-  getAllProductsFromDB: async () => {
-    const getAllProducts = await Product.find();
+  getAllProductsFromDB: async (limit , skip) => {
+    const getAllProducts = await Product.find().skip(skip).limit(limit);
 
     if (!getAllProducts) throw new ApiError(500, "No Products in DB");
 

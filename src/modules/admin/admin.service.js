@@ -3,8 +3,9 @@ import ApiError from "../../utils/ApiError.utility.js";
 import { User } from "../user/user.model.js";
 
 const AdminService = {
-  getAllOrders: async () => {
-    const findAllOrdersAndSend = await Order.find();
+  getAllOrders: async (limit , skip) => {
+
+    const findAllOrdersAndSend = await Order.find().skip(skip).limit(limit);
 
     if (!findAllOrdersAndSend) throw new ApiError(400, "Orders cannot get");
 
@@ -36,9 +37,9 @@ const AdminService = {
   },
 
 
-  getUsersForAdmin : async () => {
-    // Find If we have users
-    const findUsers = await User.find();
+  getUsersForAdmin : async (limit , skip) => {
+    // Find If we have users , all users 
+    const findUsers = await User.find().select("_id name email role").skip(skip).limit(limit);
 
     if(!findUsers) throw new ApiError(400 , "No Users Present Until Now");
 
