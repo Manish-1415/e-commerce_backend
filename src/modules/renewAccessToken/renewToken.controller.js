@@ -1,8 +1,8 @@
-import ApiError from "../../utils/ApiError.utility";
+import ApiError from "../../utils/ApiError.utility.js";
 import jwt from "jsonwebtoken";
-import { User } from "../user/user.model";
-import auth_loginService from "../auth/auth.service";
-import ApiResponse from "../../utils/ApiResponse.utility";
+import { User } from "../user/user.model.js";
+import auth_loginService from "../auth/auth.service.js";
+import ApiResponse from "../../utils/ApiResponse.utility.js";
 
 const renewAccessToken = async (req, res) => {
   const refreshToken = req.cookies.refreshToken;

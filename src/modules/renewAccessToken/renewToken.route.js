@@ -1,5 +1,5 @@
 import { Router } from "express";
-import renewAccessToken from "./renewToken.controller";
+import renewAccessToken from "./renewToken.controller.js";
 
 const router = Router();
 
