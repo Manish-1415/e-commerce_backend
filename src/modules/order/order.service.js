@@ -38,7 +38,7 @@ const OrderService = {
 
     // Now for OrderItems logic is done, now we will move towards the pricing section
     const itemsPrice = findIfUserHaveCart.items.reduce(
-      (acc, item) => acc + item.quantity * price,
+      (acc, item) => acc + item.quantity * item.price,
       0
     );
     //By this reduce method we will get exact price of all the items inside in the Cart
@@ -67,6 +67,39 @@ const OrderService = {
 
     if (!createEntryOfOrder)
       throw new ApiError(500, "Error Occurred while Creating Order");
+
+    // After the Order is created , now order is place so reduct the quantity of stock from Product .
+    // what i can do here is , i have created an Order / placed and Order , so from that order the orderItems array i will do for each item find the product & from the quantity of stock i will minus the current quantity
+    // So new array from map , inside map i will call a function pass the id of that product find its stock if not 0 then simply minus some quantity and update the product then 
+
+    // For every product call this function and provide updated stock
+
+    const findTheProductAndUpdateTheStock = async (productId , productQuantity) => {
+      let getProduct = await Product.findById(productId);
+
+      if(!getProduct) throw new ApiError(400 , "Product not found , for quantity change");
+
+      if(getProduct.stock <= 0) throw new ApiError(400 , "Product is Out Of stock , User can't get that");
+
+      if(getProduct.stock < productQuantity) throw new ApiError(400 , "User cannot place the Order , because Stock of this Product is not placable");
+
+      getProduct.stock -= productQuantity;
+      await getProduct.save();  // Here that Product Quantity will be revaluates , this function will run for every single Product in the Order
+    }
+
+
+    const takeTheProductAndUpdateStockQuantity = await Promise.all(createEntryOfOrder.orderItems.map( async (product) => {
+      // First take the quantity from the product 
+      const productId = product.product._id;
+      const productQuantity = product.quantity;
+      // Now for every product i have take the id and quantity now pass it inside that function
+
+      const sendIdAndQuantity = await findTheProductAndUpdateTheStock(productId , productQuantity);
+      //  Consider only success will come , because we have already handle the errors      
+    } )
+  );
+
+
 
     // Clear the cart now
     findIfUserHaveCart.items = [];
