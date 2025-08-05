@@ -1,4 +1,4 @@
-import OrderService from "./order.service";
+import OrderService from "./order.service.js";
 import ApiResponse from "../../utils/ApiResponse.utility.js";
 
 export const createOrder = async (req, res, next) => {

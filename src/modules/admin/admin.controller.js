@@ -1,4 +1,4 @@
-import AdminService from "./admin.service";
+import AdminService from "./admin.service.js";
 import ApiResponse from "../../utils/ApiError.utility.js";
 import { User } from "../user/user.model.js";
 import { Order } from "../order/order.model.js";
@@ -14,6 +14,7 @@ export const getAllOrdersForAdmin = async (req, res, next) => {
 
   // Now give all orders to the Admin
   const getOrdersForAdmin = await AdminService.getAllOrders(limit, skip);
+  
   return res.status(200).json(
     new ApiResponse(200, "All the Orders For Admin", {
       orders: getOrdersForAdmin,

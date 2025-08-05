@@ -1,8 +1,8 @@
 import Joi from "joi";
-import ApiError from "../../utils/ApiError.utility";
+import ApiError from "../../utils/ApiError.utility.js";
 
 export const updateOrderStatusSchema = Joi.object({
-  status: Joi.string()
+  orderStatus: Joi.string()
     .valid(
       "Pending",
       "Processing",
@@ -30,4 +30,5 @@ export const validateReqBodyForOrder = (schema) => (req, res, next) => {
   }
 
   req.validatedReqBodyForOrderStatus = value;
+  next();
 };

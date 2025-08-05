@@ -1,7 +1,7 @@
-import ApiError from "../../utils/ApiError.utility";
-import { Cart } from "../cart/cart.model";
-import { Product } from "../product/product.model";
-import { Order } from "./order.model";
+import ApiError from "../../utils/ApiError.utility.js";
+import { Cart } from "../cart/cart.model.js";
+import { Product } from "../product/product.model.js";
+import { Order } from "./order.model.js";
 
 const OrderService = {
   createOrderService: async (shippingDataFromUser, userId) => {
@@ -78,7 +78,9 @@ const OrderService = {
 
   getUserOrders: async (userId) => {
     // Find Orders from UserId
-    const findOrderForUser = await Order.find({ user: userId });
+    const findOrderForUser = await Order.find({ user: userId }).select(
+      "orderItems totalPrice orderStatus"
+    );
 
     if (!findOrderForUser) throw new ApiError(404, "No Order Found for User");
 
@@ -88,7 +90,7 @@ const OrderService = {
   },
 
   getUserOrderById: async (orderId) => {
-    const checkIfOrderIsInResource = await Order.findOne({ _id: orderId });
+    const checkIfOrderIsInResource = await Order.findById(orderId);
 
     if (!checkIfOrderIsInResource)
       throw new ApiError(400, "Provided Id of Order is Invalid");

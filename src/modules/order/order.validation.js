@@ -1,5 +1,5 @@
 import Joi from "joi";
-import ApiError from "../../utils/ApiError.utility"
+import ApiError from "../../utils/ApiError.utility.js"
 
 export const orderValidationSchema = Joi.object({
   phoneNumber: Joi.string()
