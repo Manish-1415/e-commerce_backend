@@ -1,4 +1,4 @@
-import CartService from "./cart.service";
+import CartService from "./cart.service.js";
 import ApiResponse from "../../utils/ApiResponse.utility.js";
 
 export const createCart = async (req, res, next) => {

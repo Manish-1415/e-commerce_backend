@@ -18,7 +18,7 @@ const AuthLogOutService = {
 
       const payloadData = validateRefreshToken;
 
-      const checkUserInDB = await User.findById({ _id: payloadData._id });
+      let checkUserInDB = await User.findById({ _id: payloadData._id });
 
       if (!checkUserInDB)
         throw new ApiError(

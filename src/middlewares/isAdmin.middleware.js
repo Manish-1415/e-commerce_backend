@@ -1,5 +1,4 @@
-import { User } from "../modules/user/user.model";
-import ApiError from "../utils/ApiError.utility";
+import ApiError from "../utils/ApiError.utility.js";
 
 const seeIfHeIsAdmin = async (req, res, next) => {
   // We will get payload from auth middleware req.user inside this

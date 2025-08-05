@@ -14,7 +14,7 @@ const ProductService = {
   },
 
   getAllProductsFromDB: async (limit , skip) => {
-    const getAllProducts = await Product.find().skip(skip).limit(limit);
+    const getAllProducts = await Product.find().select("_id name price description image").skip(skip).limit(limit);
 
     if (!getAllProducts) throw new ApiError(500, "No Products in DB");
 
@@ -22,7 +22,7 @@ const ProductService = {
   },
 
   getSingleProductById: async (productId) => {
-    const getProduct = await Product.findById({ id: productId });
+    const getProduct = await Product.findById(productId);
 
     if (!getProduct)
       throw new ApiError(400, "Provided Product Id is not valid");

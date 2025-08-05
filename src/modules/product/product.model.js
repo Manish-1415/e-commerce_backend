@@ -1,6 +1,4 @@
-import { required } from "joi";
 import mongoose from "mongoose";
-import { User } from "../user/user.model";
 
 const productSchema = new mongoose.Schema(
   {
@@ -54,7 +52,7 @@ const productSchema = new mongoose.Schema(
       {
         user: {
           type: mongoose.Types.ObjectId,
-          ref: User,
+          ref: "User",
         },
         name: String,
         rating: Number,

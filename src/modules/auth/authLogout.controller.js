@@ -1,4 +1,3 @@
-import ApiError from "../../utils/ApiError.utility.js";
 import ApiResponse from "../../utils/ApiResponse.utility.js";
 import AuthLogOutService from "./authLogout.service.js";
 

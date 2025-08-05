@@ -18,7 +18,7 @@ const RegisterUserService = {
 
             password = hashThePassword; // If hashing done , then store that hashed pass in password itself
 
-            const createUserEntryInDB = User.create(
+            const createUserEntryInDB = await User.create(
                 {
                     fullname,
                     email,

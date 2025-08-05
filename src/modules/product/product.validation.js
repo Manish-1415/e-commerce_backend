@@ -1,5 +1,5 @@
 import j from "joi";
-import ApiError from "../../utils/ApiError.utility";
+import ApiError from "../../utils/ApiError.utility.js";
 
 export const createProductSchema = j.object({
   name: j.string().required(),
@@ -28,7 +28,7 @@ export const createProductSchema = j.object({
 // Create a middleware to validate the req.body
 
 export const validateReqBodyForProduct = (schema) => (req, res, next) => {
-  const { error, value } = schema.validate(req.body);
+  const { error, value } = schema.validate(req.body , { abortEarly: false });
 
   if (error) {
     const errMsg = error.details.map((err) => err.message).join(" , ");

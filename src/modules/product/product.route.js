@@ -3,14 +3,14 @@ import {
   createProduct,
   deleteProductById,
   getProductById,
-} from "./product.controller";
-import { validateReqBodyForProduct } from "./product.validation";
-import { createProductSchema } from "./product.validation";
-import { getAllProducts } from "./product.controller";
-import { upload } from "../../middlewares/multer.middleware";
-import { updateProductById } from "./product.controller";
-import authMiddleware from "../../middlewares/auth.middleware";
-import seeIfHeIsAdmin from "../../middlewares/isAdmin.middleware";
+} from "./product.controller.js";
+import { validateReqBodyForProduct } from "./product.validation.js";
+import { createProductSchema } from "./product.validation.js";
+import { getAllProducts } from "./product.controller.js";
+import { upload } from "../../middlewares/multer.middleware.js";
+import { updateProductById } from "./product.controller.js";
+import authMiddleware from "../../middlewares/auth.middleware.js";
+import seeIfHeIsAdmin from "../../middlewares/isAdmin.middleware.js";
 
 const router = Router();
 

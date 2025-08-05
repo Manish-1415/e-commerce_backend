@@ -1,5 +1,5 @@
 import { Router } from "express";
-import registerUser from "./user.controller";
+import registerUser from "./user.controller.js";
 import { validateTheReqBody } from "./user.validation.js";
 import { registerUserSchemaToValidate } from "./user.validation.js";
 

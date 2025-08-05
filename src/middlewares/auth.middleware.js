@@ -1,8 +1,5 @@
-import { User } from "../modules/user/user.model";
-import ApiError from "../utils/ApiError.utility";
+import ApiError from "../utils/ApiError.utility.js";
 import jwt from "jsonwebtoken";
-import auth_loginService from "../modules/auth/auth.service";
-import ApiResponse from "../utils/ApiResponse.utility";
 
 const authMiddleware = async (req, res, next) => {
   try {
@@ -38,6 +35,5 @@ const authMiddleware = async (req, res, next) => {
     next(error);
   }
 };
-
 
 export default authMiddleware;

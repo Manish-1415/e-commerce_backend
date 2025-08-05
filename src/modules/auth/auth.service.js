@@ -16,7 +16,7 @@ const auth_loginService = {
     const verifyThePassword = await bcrypt.compare(
       dataObj.password,
       checkInDBByEmail.password
-    );
+    );  //compare returns true or false only
 
     if (!verifyThePassword)
       throw new ApiError(401, "Please Provide Valid Password to Login");
@@ -67,7 +67,7 @@ const auth_loginService = {
   },
 
   saveRefreshTokenInDB: async (dataObj, refreshToken) => {
-    const checkUserInDB = await User.findById(dataObj._id);
+    let checkUserInDB = await User.findById(dataObj._id);
 
     if (!checkUserInDB) throw new ApiError(404, "Register the User First");
 

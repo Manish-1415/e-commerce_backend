@@ -1,5 +1,4 @@
-import { User } from "../modules/user/user.model";
-import ApiError from "../utils/ApiError.utility";
+import ApiError from "../utils/ApiError.utility.js";
 
 const checkIfHeIsUser = (req, res, next) => {
   // We have to check the Role , If he is user or not , if he is user then let it be , if not then throw error

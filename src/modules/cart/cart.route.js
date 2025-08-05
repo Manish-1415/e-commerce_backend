@@ -1,18 +1,17 @@
 import { Router } from "express";
+
 import {
   createCart,
   deleteProduct,
   getCart,
   updateCart,
-} from "./cart.controller";
+} from "./cart.controller.js";
 import {
   updateCartSchemaValidation,
   validateReqBodyForCart,
-} from "./cart.validation";
-import { cartSchemaValidation } from "./cart.validation";
-import authMiddleware from "../../middlewares/auth.middleware";
-import checkOwnerShip from "../../middlewares/checkownerShip.middleware";
-// import { Cart } from "./cart.model";
+} from "./cart.validation.js";
+import { cartSchemaValidation } from "./cart.validation.js";
+import authMiddleware from "../../middlewares/auth.middleware.js";
 
 const router = Router();
 

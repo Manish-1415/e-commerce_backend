@@ -15,7 +15,7 @@ export const updateCartSchemaValidation = j.object({
 
 export const validateReqBodyForCart = (schema = (req, res, next) => {
   try {
-    const { error, value } = schema.validate(req.body);
+    const { error, value } = schema.validate(req.body , {abortEarly : false});
 
     if (error) {
       const errMsg = error.details.map((err) => err.message).join(" , ");

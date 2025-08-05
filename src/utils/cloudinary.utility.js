@@ -39,7 +39,7 @@ const uploadOnCloudinary = async (localFilePath) => {
     try {
       //why we unlink it here , because if this code works or gives error means if try/catch anyone execute then simply unlink it in the end , thats why unlink in finally
       if (localFilePath) {
-        await unlink(localFilePath);
+        unlink(localFilePath);
         console.log("File Successfully deleted from the server", localFilePath);
       }
     } catch (error) {

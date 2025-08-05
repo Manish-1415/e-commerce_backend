@@ -1,4 +1,4 @@
-import ApiError from "../utils/ApiError.utility";
+import ApiError from "../utils/ApiError.utility.js";
 
 const checkOwnerShip = (model) => async (req, res, next) => {
   const userId = req.user._id; // User Id from Token

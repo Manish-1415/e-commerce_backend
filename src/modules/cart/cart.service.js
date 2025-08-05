@@ -1,4 +1,4 @@
-import ApiError from "../../utils/ApiError.utility";
+import ApiError from "../../utils/ApiError.utility.js";
 import Cart from "./cart.model.js";
 import Product from "../product/product.model.js";
 
@@ -14,7 +14,7 @@ const CartService = {
     if (!findProduct) throw new ApiError(400, "Product Not Found / Invalid ID");
 
     if (!findCartById) {
-      const createCartForUser = await Cart.create({
+      let createCartForUser = await Cart.create({
         user: userId,
         items: [
           {
@@ -28,20 +28,33 @@ const CartService = {
       if (!createCartForUser)
         throw new ApiError(500, "Error Occurred while creating Cart");
 
+      createCartForUser.totalItems = createCartForUser.items.reduce(
+        (acc, product) => acc + product.quantity,
+        0
+      );
+      // It will iterate over every products quantity and then in the end it will persist single value
+      createCartForUser.totalPrice = createCartForUser.items.reduce(
+        (acuumulator, product) =>
+          acuumulator + product.price * product.quantity,
+        0
+      );
+
+      await createCartForUser.save(); // save the cart before returning
+
       return createCartForUser; //Created Cart will be send from here itself.
     }
 
-    //If Cart Already Created
+    //If Cart Already Created then only update the quantity
 
-    const findIfProductAlreadyExists = findCartById.items.find(
+    // .find() method will not copy an element from array it gives the reference.
+    let findIfProductAlreadyExists = findCartById.items.find(
       (product) =>
         product.product._id.toString() === cartData.productId.toString()
     );
-    // With this method we are finding if Cart have that product or not already
-    // And by find now findIfProductAlreadyExists this variable consist the Object which is already there so update it now
     if (findIfProductAlreadyExists) {
       // Here product will already exist in Cart now update the quantity
-      findIfProductAlreadyExists.quantity += cartData.productQuantity; //Updated the existing quantity with productData quantity
+      findIfProductAlreadyExists.quantity += cartData.productQuantity;
+      // ok in simple words this findIfProductAlreadyExists dont consist copy instead this is reference to the object inside the items , because we are using find() to get the object , so TLDR it is reference not copy
     }
 
     // Now if that product not exist already then we have to create new Object , we get that productId from User , and earlier we simply take that product id and find the product from DB , now we have to add that product into Cart
@@ -54,7 +67,7 @@ const CartService = {
 
       findCartById.items.push(newProduct); //Now this object will be pushed at the last
 
-      await findCartById.save();
+      // await findCartById.save();   //In the end we are saving so no need to save here
     }
 
     // Now calculate total items and total price of the cart items
@@ -162,7 +175,7 @@ const CartService = {
 
   getCartService: async (userId) => {
     const checkIfUserHaveCart = await Cart.findOne({ user: userId })
-      .populate("items.product")
+      .populate("items.product _id name price description image")
       .lean();
     // By populate now the project : ObjectId will replace with that product objects field , now user can see the Cart perfectly.
     // By .lean() method our mongoose document will be converted into plain JS object , but why ? because without this by default mongoose doc will have .save() , .validate() etc., methods and we dont need it because we are simply providing Cart by GET method thats why
