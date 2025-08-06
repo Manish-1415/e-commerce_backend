@@ -1,7 +1,7 @@
 import Joi from "joi";
 import ApiError from "../../utils/ApiError.utility.js";
 
-export const reviewSchema = Joi.object({
+export const reviewSchemaForCreation = Joi.object({
   comment: Joi.string().required().messages({
     "any.required": "Comment is required",
     "string.empty": "Comment cannot be empty",
@@ -15,6 +15,10 @@ export const reviewSchema = Joi.object({
 });
 
 
+export const reviewSchemaForUpdation = Joi.object({
+    rating : Joi.number().required(),
+    comment : Joi.string().required(),
+})
 
 
 export const validateReviewSchema = (schema) = (req , res , next) => {

@@ -15,6 +15,7 @@ import renewTokenRouter from "./modules/renewAccessToken/renewToken.route.js";
 import cartRouter from "./modules/cart/cart.route.js";
 import orderRouter from "./modules/order/order.route.js";
 import adminRouter from "./modules/admin/admin.route.js";
+import reviewRouter from "./modules/user_reviews/reviews.route.js"
 
 app.use("/api/v1/users", registerRouter); // Redirect to the Router of register
 
@@ -30,6 +31,7 @@ app.use("/api/v1/checkout", orderRouter);
 
 app.use("/api/v1/admin", adminRouter);
 
+app.use("./api/reviews", reviewRouter);
 
 
 // In the last import error middleware 
