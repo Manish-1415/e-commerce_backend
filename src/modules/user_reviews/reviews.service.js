@@ -1,7 +1,7 @@
 import ApiError from "../../utils/ApiError.utility.js";
 import { Product } from "../product/product.model.js";
 import { Review } from "./reviews.model.js";
-
+import calculateTheRating from "../../utils/calculateTheRating.utility.js";
 // Logics needs to be twick a little bit , because we have added reviews model
 
 const ReviewsService = {
@@ -32,6 +32,12 @@ const ReviewsService = {
     const reviewCount = await Review.countDocuments({ product: productId });
 
     findProduct.numOfReviews = reviewCount;
+
+    // set the ratings
+    const getTheRating = await calculateTheRating(productId);
+
+    findProduct.ratings = getTheRating;
+
     await findProduct.save();
 
     return {
@@ -66,6 +72,12 @@ const ReviewsService = {
 
     const totalReviews = await Review.countDocuments({ product: productId });
     findProduct.numOfReviews = totalReviews;
+
+    // set the ratings
+    const getTheRating = await calculateTheRating(productId);
+
+    findProduct.ratings = getTheRating;
+
     await findProduct.save();
 
     return {
