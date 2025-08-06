@@ -74,6 +74,7 @@ const OrderService = {
 
     // For every product call this function and provide updated stock
 
+    //  This is inventory logic , for stock updation dynamically , after every order placed.
     const findTheProductAndUpdateTheStock = async (productId , productQuantity) => {
       let getProduct = await Product.findById(productId);
 
@@ -84,7 +85,7 @@ const OrderService = {
       if(getProduct.stock < productQuantity) throw new ApiError(400 , "User cannot place the Order , because Stock of this Product is not placable");
 
       getProduct.stock -= productQuantity;
-      await getProduct.save();  // Here that Product Quantity will be revaluates , this function will run for every single Product in the Order
+      await getProduct.save();  // Here that Product Quantity will be overwrite, this function will run for every single Product in the Order
     }
 
 
