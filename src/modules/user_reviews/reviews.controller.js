@@ -29,8 +29,8 @@ export const deleteReview = async (req, res, next) => {
   );
 
   return res
-    .status(203)
-    .json(new ApiResponse(203, "Review deleted successfully !", deleteReview));
+    .status(200)
+    .json(new ApiResponse(200, "Review deleted successfully !", deleteReview));
 };
 
 export const updateReview = async (req, res, next) => {
@@ -45,8 +45,8 @@ export const updateReview = async (req, res, next) => {
   );
 
   return res
-    .status(204)
-    .json(new ApiResponse(204, "User updated Successfully !", updateReview));
+    .status(200)
+    .json(new ApiResponse(200, "User updated Successfully !", updateReview));
 };
 
 export const getAllReviewForAProduct = async (req, res, next) => {
@@ -56,7 +56,11 @@ export const getAllReviewForAProduct = async (req, res, next) => {
 
   const productId = req.params.id;
 
-  const reviewArray = ReviewsService.getAllReviews(productId, skip, limit);
+  const reviewArray = await ReviewsService.getAllReviews(
+    productId,
+    skip,
+    limit
+  );
 
   return res
     .status(200)

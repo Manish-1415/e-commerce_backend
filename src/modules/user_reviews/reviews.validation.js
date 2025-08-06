@@ -14,23 +14,21 @@ export const reviewSchemaForCreation = Joi.object({
   }),
 });
 
-
 export const reviewSchemaForUpdation = Joi.object({
-    rating : Joi.number().required(),
-    comment : Joi.string().required(),
-})
+  rating: Joi.number().required(),
+  comment: Joi.string().required(),
+});
 
+export const validateReviewSchema = (schema = (req, res, next) => {
+  const { error, value } = schema.validate(req.body);
 
-export const validateReviewSchema = (schema) = (req , res , next) => {
-    const {error , value} = schema.validate(req.body);
-    
-    if(error) {
-        const errMsg = error.details.map( (err) => err.message ).join(" , ");
+  if (error) {
+    const errMsg = error.details.map((err) => err.message).join(" , ");
 
-        next(new ApiError(400 , errMsg));
-    }
+    next(new ApiError(400, errMsg));
+  }
 
-    req.validatedReviewBody = value;
-    
-    next();
-}
+  req.validatedReviewBody = value;
+
+  next();
+});

@@ -1,42 +1,41 @@
 import ApiError from "../../utils/ApiError.utility.js";
 import { Product } from "../product/product.model.js";
+import { Review } from "./reviews.model.js";
+
+// Logics needs to be twick a little bit , because we have added reviews model
 
 const ReviewsService = {
   createReviewService: async (userPayload, productId, validatedUserData) => {
-    // Check product first
+    // Find the product first
     let findProduct = await Product.findById(productId);
 
-    if (!findProduct)
-      throw new ApiError(400, "Product is Invalid / Not Present");
+    if (!findProduct) throw new ApiError(404, "Product Not Found");
 
-    // Now check if user have already reviewed or not the product
+    // If we have that product then check if the logged in user have created a review or not
 
-    const checkIfUserAlreadyReviewed = findProduct.reviews.find(
-      (review) => review.user._id.toString() === userPayload._id
-    );
+    let checkIfUserHaveReviewed = await Review.findOne({
+      user: userPayload._id,
+      product: productId,
+    });
 
-    if (checkIfUserAlreadyReviewed)
-      throw new ApiError(400, "User cannot review a Product more than 1 time");
+    if (checkIfUserHaveReviewed)
+      throw new ApiError(400, "U already reviewed this product");
 
-    // But if user not reviewed a product then let him create the review
-
-    const createNewReview = {
+    const newReviewCreation = await Review.create({
+      product: productId,
       user: userPayload._id,
       name: userPayload.name,
       rating: validatedUserData.rating,
       comment: validatedUserData.comment,
-    };
+    });
 
-    // Now push the review inside reviews array
+    const reviewCount = await Review.countDocuments({ product: productId });
 
-    findProduct.reviews.push(createNewReview); //push returns updated arr length
-
+    findProduct.numOfReviews = reviewCount;
     await findProduct.save();
 
-    const reviewCount = findProduct.reviews.length;
-
     return {
-      review: createNewReview,
+      review: newReviewCreation,
       reviewCount: reviewCount,
     };
   },
@@ -45,76 +44,70 @@ const ReviewsService = {
     // Find the product first
     let findProduct = await Product.findById(productId);
 
-    if (!findProduct) throw new ApiError(400, "Product is invalid , Not exist");
+    if (!findProduct) throw new ApiError(404, "Product Not Found");
 
-    // if u have product then check if user have reviewed or not , if not reviewed then throw err
+    // If we have product now check if user have review about this product if not then throw error.
 
-    const checkIfUserReviewed = findProduct.reviews.find(
-      (review) => review.user._id.toString() === userPayload._id
+    const findReview = await Review.findOne({
+      user: userPayload._id,
+      product: productId,
+    });
+
+    if (!findReview)
+      throw new ApiError(400, "You did not Reviewed this product yet");
+
+    //Here now onwards , what will happen is if user have created a review about that same product now delete the product
+
+    const userReviewIdToBeDeleted = findReview._id;
+
+    const findTheReviewAndDelete = await Review.findByIdAndDelete(
+      userReviewIdToBeDeleted
     );
 
-    if (!checkIfUserReviewed)
-      throw new ApiError(
-        400,
-        "User cannot delete a review if user dont reviewed"
-      );
-
-    // But if user reviewed then delete the review now
-
-    const newFilteredReviewsArr = findProduct.reviews.filter(
-      (review) => review.user._id.toString() !== userPayload._id
-    );
-
-    // Now update the reviews arr
-    findProduct.reviews = newFilteredReviewsArr;
-
+    const totalReviews = await Review.countDocuments({ product: productId });
+    findProduct.numOfReviews = totalReviews;
     await findProduct.save();
 
-    // Calculate total reviews
-
-    const totalReviews = findProduct.reviews.length;
-
     return {
-      reviews: newFilteredReviewsArr,
+      deletedReview: findTheReviewAndDelete,
       totalReviews,
     };
   },
 
   updateReviewService: async (productId, userPayload, updatedDataFromUser) => {
-    // Find the product first if it exist
-    let findProduct = await Product.findById(productId);
+    // Find the product first
+    const findProduct = await Product.findById(productId);
 
-    if (!findProduct) throw new ApiError(400, "Product is Invalid , Not Exist");
+    if (!findProduct) throw new ApiError(404, "Product Not Found");
 
-    // Check if user reviewed , if not then dont let him update
+    // if product exists then check if user have review on this product
 
-    const checkIfUserHaveReview = findProduct.reviews.find(
-      (review) => review.user._id.toString() === userPayload._id
-    );
+    let findIsUserReviewed = await Review.findOne({
+      user: userPayload._id,
+      product: productId,
+    });
 
-    if (!checkIfUserHaveReview)
-      throw new ApiError(
-        400,
-        "User cannot update review , if user dont have review"
-      );
+    if (!findIsUserReviewed)
+      throw new ApiError(400, "You did not reviewed the product yet");
 
-    checkIfUserHaveReview.rating = updatedDataFromUser.rating;
-    checkIfUserHaveReview.comment = updatedDataFromUser.comment;
+    // If we have product & user reviewed it now let user update the review .
+    findIsUserReviewed.rating = updatedDataFromUser.rating;
+    findIsUserReviewed.comment = updatedDataFromUser.comment;
 
-    await findProduct.save();
+    await findIsUserReviewed.save();
 
-    return findProduct;
+    return findIsUserReviewed;
   },
 
-  getAllReviews: async (productId) => {
-    const findProduct = await Product.findById(productId)
-      .select("reviews.user", "_id , name")
+  getAllReviews: async (productId, skip, limit) => {
+    // Get all the reviews which are related to this productId
+    const getAllReviewOfThisProduct = await Review.find({ product: productId })
+      .populate("user", "name")
+      .skip(skip)
+      .limit(limit)
       .lean();
 
-    if (!findProduct)
-      throw new ApiError(400, "Product is Invalid / product does not exist");
-
-    return findProduct.reviews;
+    return getAllReviewOfThisProduct;
   },
 };
 
