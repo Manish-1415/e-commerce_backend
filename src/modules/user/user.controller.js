@@ -7,12 +7,13 @@ const registerUser = asyncHandler(async (req, res) => {
     req.validatedUserDetails
   );
 
-  const { fullname, email, _id } = registerUserInDB;
+  const { fullname, email, _id , role } = registerUserInDB;
 
   const resObjOfUser = {
     fullname,
     email,
     _id,
+    role
   };
 
   return res
