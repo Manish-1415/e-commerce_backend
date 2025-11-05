@@ -1,11 +1,13 @@
 import { Router } from "express";
-import { loginUser } from "./auth.controller";
-import { loginValidation, loginValidationMiddleware } from "./auth.validation";
+import { createNewAccessToken, loginUser , logOutUser} from "./auth.controller.js";
+import { loginValidation, loginValidationMiddleware } from "./auth.validation.js";
 
 const router = Router();
 
 router.post("/login", loginValidationMiddleware(loginValidation), loginUser);
 
 router.post("/logout", logOutUser);
+
+router.post("/refresh", createNewAccessToken);
 
 export default router;

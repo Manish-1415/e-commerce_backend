@@ -11,6 +11,7 @@ export const loginUser = asyncHandler(async (req, res) => {
     _id: updateRefreshToken._id,
     fullname: updateRefreshToken.fullname,
     email: updateRefreshToken.email,
+    role: updateRefreshToken.role,
   };
 
   return res
@@ -31,9 +32,7 @@ export const loginUser = asyncHandler(async (req, res) => {
 
 export const logOutUser = asyncHandler(async (req, res) => {
   const accessToken = req.headers.authorization;
-  const refreshToken = req.cookies.refreshToken;
-
-  const logOut = await authService.logOutTheUser(accessToken, refreshToken);
+  const logOut = await authService.logOutTheUser(accessToken);
 
   const resToSend = {
     _id: logOut._id,
@@ -50,4 +49,16 @@ export const logOutUser = asyncHandler(async (req, res) => {
       maxAge: 0,
     })
     .json(new ApiResponse(200, "User Logged-out successfully !", resToSend));
+});
+
+export const createNewAccessToken = asyncHandler(async (req, res) => {
+  // for access token generation check if the refreshToken is valid or not first
+
+  const refreshToken = req.cookies.refreshToken;
+
+  const createToken = await authService.generateToken(refreshToken);
+
+  return res
+    .status(201)
+    .json(new ApiResponse(201, "Access Token re-generated", {accessToken : createToken}));
 });

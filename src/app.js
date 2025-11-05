@@ -21,10 +21,11 @@ app.use(
 
 // routes
 import registerUserRouter from "./modules/user/user.route.js";
+import productRouter from "./modules/product/product.route.js"
 
 app.use("/api/v1/user", registerUserRouter);
 
-
+app.use("/api/v1/products", productRouter);
 
 // err middleware import in the last.
 
