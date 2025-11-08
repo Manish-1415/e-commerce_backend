@@ -12,6 +12,6 @@ router.get("/", verifyUser , checkUserRole , getAllOrders);
 
 router.get("/:id", verifyUser , checkUserRole , getSpecificOrder);
 
-router.get("/:id", verifyUser , checkUserRole , cancelTheOrder);
+router.delete("/:id", verifyUser , checkUserRole , cancelTheOrder);
 
 export default router;

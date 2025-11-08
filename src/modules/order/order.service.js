@@ -1,5 +1,6 @@
 import ApiError from "../../utils/ApiError.utility";
 import { Order } from "./order.model";
+import { Product } from "../product/product.model"
 
 const orderService = {
   createOrderForUser: async (orderInfoObj, userObjWithPayload) => {
@@ -36,6 +37,13 @@ const orderService = {
 
     if (!generateOrder)
       throw new ApiError(500, "Error Occurred while creating an Order");
+
+    //when new order is placed then only update the stock.
+    let findTheProduct = await Product.findById(orderInfoObj.items.product);
+
+    findTheProduct.stock -= orderInfoObj.items.quantity;
+
+    await findTheProduct.save();
 
     return generateOrder;
   },
