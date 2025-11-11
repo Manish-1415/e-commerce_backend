@@ -34,8 +34,8 @@ const productSchema = new mongoose.Schema(
     },
 
     image: {
-      type: String,
-      required: true,
+      public_id : { type : String , required : true },
+      url : { type : String , required : true },
     },
 
     stock: {
@@ -55,13 +55,8 @@ const productSchema = new mongoose.Schema(
 
     reviews: [
       {
-        user: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
-        },
-        name: String,
-        rating: Number,
-        comment: String,
+        type : mongoose.Schema.Types.ObjectId,
+        ref : "Review",
       },
     ],
 

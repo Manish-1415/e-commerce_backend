@@ -24,6 +24,8 @@ import registerUserRouter from "./modules/user/user.route.js";
 import productRouter from "./modules/product/product.route.js"
 import cartRouter from "./modules/cart/cart.route.js";
 import orderRouter from "./modules/order/order.route.js"
+import adminRouter from "./modules/admin/admin.route.js"
+import reviewRouter from "./modules/review/review.route.js"
 
 app.use("/api/v1/user", registerUserRouter);
 
@@ -32,6 +34,10 @@ app.use("/api/v1/products", productRouter);
 app.use("/api/v1/cart", cartRouter);
 
 app.use("/api/v1/order", orderRouter);
+
+app.use("/api/v1/admin", adminRouter);
+
+app.use("/api/v1/review", reviewRouter);
 
 // err middleware import in the last.
 

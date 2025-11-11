@@ -6,7 +6,7 @@ export const createProduct = asyncHandler(async (req, res) => {
   // here simply assume u got the validated product data
 
   let productCreation = await productService.createProductEntry(
-    req.validatedProductSchema
+    req.validatedProductSchema , req.file
   );
 
   return res
@@ -19,7 +19,8 @@ export const createProduct = asyncHandler(async (req, res) => {
 export const updateProduct = asyncHandler(async (req, res) => {
   const updateEntry = await productService.updateProductEntry(
     req.validatedProductUpdateSchema,
-    req.params.id
+    req.params.id,
+    req.file
   );
 
   return res

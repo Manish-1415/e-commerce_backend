@@ -30,7 +30,6 @@ export const updateCart = asyncHandler(async (req, res) => {
 });
 
 
-
 export const deleteProductFromCart = asyncHandler(async (req , res) => {
     // what we have to do ? we will get specific id of an product when the delete icon is clicked , we will get id of product
     const productId = req.params.id;
@@ -50,3 +49,4 @@ export const getCart = asyncHandler(async (req , res) => {
   .status(200)
   .json(new ApiResponse(200 , "Cart data fetched successfully !", cartToSend));
 })
+

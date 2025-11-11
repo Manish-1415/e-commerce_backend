@@ -18,11 +18,14 @@ import {
   validateProductSchema,
 } from "./product.validation";
 
+import { upload } from "../../middlewares/multer.middleware";
+
 router.post(
   "/",
   verifyUser,
   verifyProductManipulation,
   validateProductSchema(productValidation),
+  upload.single("image"),
   createProduct
 );
 
@@ -31,6 +34,7 @@ router.patch(
   verifyUser,
   verifyProductManipulation,
   productUpdationMiddleware(productUpdateValidation),
+  upload.single("image"),
   updateProduct
 );
 

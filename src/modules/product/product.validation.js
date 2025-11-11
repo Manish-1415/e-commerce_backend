@@ -8,7 +8,6 @@ export const productValidation = Joi.object({
   discountPrice: Joi.number().min(0).optional(),
   category: Joi.string().required(),
   brand: Joi.string().required(),
-  image: Joi.string().uri().required(),
   stock: Joi.number().min(0).optional(),
   ratings: Joi.number().min(0).max(5).optional(),
   numOfReviews: Joi.number().min(0).optional(),
@@ -55,7 +54,6 @@ export const productUpdateValidation = Joi.object({
   discountPrice: Joi.number().min(0).optional(),
   category: Joi.string().optional(),
   brand: Joi.string().optional(),
-  image: Joi.string().uri().optional(),
   stock: Joi.number().min(0).optional(),
   isAvailable: Joi.boolean().optional(),
 });

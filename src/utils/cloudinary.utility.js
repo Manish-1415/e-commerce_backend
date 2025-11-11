@@ -20,9 +20,11 @@ const uploadFileOnCloudinary = async (localFilePath) => {
 
       console.log("File Uploaded successfully", uploadFile.url);
 
+      return { public_id : uploadFile.public_id , url : uploadFile.secure_url }
+
   } catch (error) {
     console.log(error)
-    return error 
+    throw new ApiError(500 , "Error Occurred While Uploading File")
   }
   finally {
       fs.unlinkSync(localFilePath);

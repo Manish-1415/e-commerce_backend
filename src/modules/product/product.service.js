@@ -1,8 +1,19 @@
 import ApiError from "../../utils/ApiError.utility";
+import uploadFileOnCloudinary from "../../utils/cloudinary.utility";
+import deleteFileFromClodinary from "../../utils/deleteCloudinaryFile.utility";
 import { Product } from "./product.model";
 
 const productService = {
-  createProductEntry: async (productObj) => {
+  createProductEntry: async (productObj , file) => {
+    // no need for checking cause admin/seller only CRUD product
+    // now check the files
+    if(!file || !file.path) throw new ApiError(400 , "File Not Provided or Path Mismatched");
+
+    //upload the file on cloudinary
+    const imgUrl = await uploadFileOnCloudinary(file.path); // imgUrl have the obj with public_id & url as properties
+
+    productObj.image = imgUrl;
+
     const createProduct = await Product.create(productObj);
 
     if (!createProduct)
@@ -11,26 +22,36 @@ const productService = {
     return createProduct;
   },
 
-  updateProductEntry: async (updationObj, updateObjId) => {
-    //simply update here , everything is checked before , like is user in DB , is allowed to do this operation , validate the schema . now simply find the product in the DB entry & update the product
+  updateProductEntry: async (updationObj, updateObjId , file) => {
+    // what updateProduct do ? find the product if not found throw err , if found update things 
+    // check if product exist or not
+    let checkForProduct = await Product.findById(updateObjId);
 
-    const findTheProductAndUpdate = await Product.findByIdAndUpdate(
-      updateObjId,
-      updationObj,
-      { new: true }
-    ); // this new :true means return new updated document instead of old one.
+    if(!checkForProduct) throw new ApiError(404 , "Product Not Found");
 
-    if (!findTheProductAndUpdate) throw new ApiError(404, "Product Not found");
+    //if we got the product then check if we got file or not
+    if(file || file.path) {
+      //now what to do here ? delete first file 
+      await deleteFileFromClodinary(checkForProduct.image);
+      //err handled there itself in delCldniray so no need here to check
+      
+      //now simply create new img url here
+      const newUrl = await uploadFileOnCloudinary(file.path);
 
-    return findTheProductAndUpdate;
+      updationObj.image = newUrl;
+    }
+    return await Product.findByIdAndUpdate(updateObjId , updationObj , {new : true});
   },
 
-  deleteProductEntry: async (objIdToDelete) => {
-    const findTheObjAndDelete = await Product.findByIdAndDelete(objIdToDelete);
+  deleteProductEntry: async (objId) => {
+    let findTheProduct = await Product.findById(objId);
 
-    if (!findTheObjAndDelete) throw new ApiError(404, "Product Not Found");
+    if(!findTheProduct) throw new ApiError(404 , "Product not find to delete");
 
-    return findTheObjAndDelete;
+    await deleteFileFromClodinary(findTheProduct.image);
+    // file deleted now delete the entry
+
+    return await Product.findByIdAndDelete(objId);
   },
 
   getProductEntryById: async (productId) => {
