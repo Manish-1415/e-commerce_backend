@@ -1,6 +1,6 @@
 import { Router } from "express";
-import verifyUser from "../../middlewares/jwt.middleware";
-import checkIfUserIsAdmin from "./admin.middleware";
+import verifyUser from "../../middlewares/jwt.middleware.js";
+import checkIfUserIsAdmin from "./admin.middleware.js";
 import {
   deleteOrder,
   deleteUser,
@@ -9,7 +9,7 @@ import {
   getSingleOrder,
   getSingleUser,
   updateOrder,
-} from "./admin.controller";
+} from "./admin.controller.js";
 
 const router = Router();
 

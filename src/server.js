@@ -12,8 +12,4 @@ connectDB()
         console.log(`App is listening on port ${port}`);
     })
 } )
-
-
-
-
-
+.catch( (err) => console.log(err) );

@@ -1,7 +1,7 @@
-import ApiError from "../../utils/ApiError.utility";
-import { Product } from "../product/product.model";
-import {Order} from "../order/order.model"
-import { Review } from "./review.model";
+import ApiError from "../../utils/ApiError.utility.js";
+import { Product } from "../product/product.model.js";
+import {Order} from "../order/order.model.js"
+import { Review } from "./review.model.js";
 
 const reviewService = {
     createReviewForUser : async (reviewDatObj , userId , productId) => {

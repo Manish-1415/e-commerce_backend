@@ -1,6 +1,6 @@
-import ApiError from "../utils/ApiError.utility";
-import { User } from "../modules/user/user.model";
-import { validateToken } from "../utils/tokens.utility";
+import ApiError from "../utils/ApiError.utility.js";
+import { User } from "../modules/user/user.model.js";
+import { validateToken } from "../utils/tokens.utility.js";
 
 const verifyUser = async (req, res, next) => {
   try {

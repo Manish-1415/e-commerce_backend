@@ -1,6 +1,6 @@
-import ApiError from "../../utils/ApiError.utility";
-import { Order } from "./order.model";
-import { Product } from "../product/product.model"
+import ApiError from "../../utils/ApiError.utility.js";
+import { Order } from "./order.model.js";
+import { Product } from "../product/product.model.js"
 
 const orderService = {
   createOrderForUser: async (orderInfoObj, userObjWithPayload) => {

@@ -1,6 +1,6 @@
-import { Product } from "../product/product.model";
-import ApiError from "../../utils/ApiError.utility";
-import { Cart } from "../cart/cart.model";
+import { Product } from "../product/product.model.js";
+import ApiError from "../../utils/ApiError.utility.js";
+import { Cart } from "../cart/cart.model.js";
 
 const cartService = {
   // before CreateCart the updateCart will be happen i mean req , & when updateCart throw error that cart is not found then we will make createCart req & then the updateCart once more .

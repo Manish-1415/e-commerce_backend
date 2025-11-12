@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { createCart, deleteProductFromCart, getCart, updateCart } from "./cart.controller";
-import checkUserRole from "../../middlewares/checkIfRoleIsUser.middleware";
-import verifyUser from "../../middlewares/jwt.middleware";
-import { addToCartSchema, cartSchemaMiddleware } from "./cart.validation";
+import { createCart, deleteProductFromCart, getCart, updateCart } from "./cart.controller.js";
+import checkUserRole from "../../middlewares/checkIfRoleIsUser.middleware.js";
+import verifyUser from "../../middlewares/jwt.middleware.js";
+import { addToCartSchema, cartSchemaMiddleware } from "./cart.validation.js";
 
 const router = Router();
 

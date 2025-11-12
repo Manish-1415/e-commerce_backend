@@ -38,7 +38,7 @@ export const orderValidationSchema = Joi.object({
 
 
 
-import ApiError from "../../utils/ApiError.utility";
+import ApiError from "../../utils/ApiError.utility.js";
 
 export const orderValidationMiddleware = (req, res, next) => {
   const { error } = orderValidationSchema.validate(req.body, {

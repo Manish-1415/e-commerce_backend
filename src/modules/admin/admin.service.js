@@ -1,6 +1,6 @@
-import { User } from "../user/user.model"
-import ApiError from "../../utils/ApiError.utility"
-import { Order } from "../order/order.model";
+import { User } from "../user/user.model.js"
+import ApiError from "../../utils/ApiError.utility.js"
+import { Order } from "../order/order.model.js";
 
 const adminService = {
     getUsers : async () => {

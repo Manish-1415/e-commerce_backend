@@ -1,6 +1,6 @@
-import asyncHandler from "../../utils/asyncHandler.utility"
-import adminService from "./admin.service"
-import ApiResponse from "../../utils/ApiResponse.utility"
+import asyncHandler from "../../utils/asyncHandler.utility.js"
+import adminService from "./admin.service.js"
+import ApiResponse from "../../utils/ApiResponse.utility.js"
 
 export const getAllUsers = asyncHandler(async (req , res) => {
     const users = await adminService.getUsers();

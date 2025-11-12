@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import ApiError from "./ApiError.utility";
+import ApiError from "./ApiError.utility.js";
 
 export const generateAccessToken = (payload, secretKey, expiry) => {
   try {

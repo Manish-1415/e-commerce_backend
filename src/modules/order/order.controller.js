@@ -1,6 +1,6 @@
-import asyncHandler from "../../utils/asyncHandler.utility";
-import orderService from "./order.service";
-import ApiResponse from "../../utils/ApiResponse.utility";
+import asyncHandler from "../../utils/asyncHandler.utility.js";
+import orderService from "./order.service.js";
+import ApiResponse from "../../utils/ApiResponse.utility.js";
 
 export const createOrder = asyncHandler(async (req, res) => {
   const orderInfoObj = req.body;

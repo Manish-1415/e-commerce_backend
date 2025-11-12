@@ -1,4 +1,4 @@
-import ApiError from "../utils/ApiError.utility";
+import ApiError from "../utils/ApiError.utility.js";
 
 const checkUserRole = (req , res , next) => {
     // check if users role is user

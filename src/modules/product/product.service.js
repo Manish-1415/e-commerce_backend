@@ -1,7 +1,7 @@
-import ApiError from "../../utils/ApiError.utility";
-import uploadFileOnCloudinary from "../../utils/cloudinary.utility";
-import deleteFileFromClodinary from "../../utils/deleteCloudinaryFile.utility";
-import { Product } from "./product.model";
+import ApiError from "../../utils/ApiError.utility.js";
+import uploadFileOnCloudinary from "../../utils/cloudinary.utility.js";
+import deleteFileFromClodinary from "../../utils/deleteCloudinaryFile.utility.js";
+import { Product } from "./product.model.js";
 
 const productService = {
   createProductEntry: async (productObj , file) => {

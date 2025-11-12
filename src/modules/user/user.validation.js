@@ -4,7 +4,6 @@ export const userValidation = Joi.object({
   fullname: Joi.string().min(3).max(50).required(),
   email: Joi.string().email().required(),
   password: Joi.string().min(6).required(),
-  avatar: Joi.string().uri().optional(),
   refreshToken: Joi.string().optional(),
   role: Joi.string().valid("user", "seller", "admin").default("user"),
   adminKey: Joi.when("role", {
@@ -31,3 +30,24 @@ export const userValidationMiddleware = (schema) => (req, res, next) => {
 
   next();
 };
+
+
+
+
+export const updateUserValidation = Joi.object({
+  fullname: Joi.string().trim().min(2).max(100).optional(),
+  email: Joi.string().email().optional(),
+  password: Joi.string().min(6).optional(),
+}).min(1); // ensures at least one field is provided
+
+
+export const updateUserMiddleware = (req , res , next) => {
+  const {error} = updateUserValidation.validate(req.body , {abortEarly : false , stripUnknown : false});
+
+  if(error) {
+    const errMsg = error.details.map( (err) => err.message ).join(",");
+
+    return next(new ApiError(400 , errMsg));
+  }
+  next();
+}

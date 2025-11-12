@@ -1,4 +1,4 @@
-import ApiError from "../utils/ApiError.utility";
+import ApiError from "../utils/ApiError.utility.js";
 
 const verifyProductManipulation = (req, res, next) => {
   const userRole = req.user.role;

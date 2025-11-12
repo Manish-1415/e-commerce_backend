@@ -1,6 +1,6 @@
-import asyncHandler from "../../utils/asyncHandler.utility";
-import productService from "./product.service";
-import ApiResponse from "../../utils/ApiResponse.utility";
+import asyncHandler from "../../utils/asyncHandler.utility.js";
+import productService from "./product.service.js";
+import ApiResponse from "../../utils/ApiResponse.utility.js";
 
 export const createProduct = asyncHandler(async (req, res) => {
   // here simply assume u got the validated product data

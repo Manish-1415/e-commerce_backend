@@ -1,6 +1,6 @@
-import asyncHandler from "../../utils/asyncHandler.utility";
-import cartService from "./cart.service";
-import ApiResponse from "../../utils/ApiResponse.utility";
+import asyncHandler from "../../utils/asyncHandler.utility.js";
+import cartService from "./cart.service.js";
+import ApiResponse from "../../utils/ApiResponse.utility.js";
 
 export const createCart = asyncHandler(async (req, res) => {
   const productInfoObj = req.validatedCartSchema; // the product id & the quantity

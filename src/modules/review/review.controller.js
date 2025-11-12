@@ -1,6 +1,6 @@
-import asyncHandler from "../../utils/asyncHandler.utility"
-import reviewService from "./review.service";
-import ApiResponse from "../../utils/ApiResponse.utility"
+import asyncHandler from "../../utils/asyncHandler.utility.js"
+import reviewService from "./review.service.js";
+import ApiResponse from "../../utils/ApiResponse.utility.js"
 
 export const createReview = asyncHandler(async(req , res) => {
     const reviewDataObj = req.body;

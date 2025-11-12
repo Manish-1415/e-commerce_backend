@@ -1,5 +1,5 @@
 import { v2 as cloudinary } from "cloudinary";
-import ApiError from "./ApiError.utility";
+import ApiError from "./ApiError.utility.js";
 
 const deleteFileFromClodinary = async (imgFile) => {
     try {

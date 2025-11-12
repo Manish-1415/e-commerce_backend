@@ -1,5 +1,5 @@
 import Joi from "joi";
-import ApiError from "../../utils/ApiError.utility";
+import ApiError from "../../utils/ApiError.utility.js";
 
 export const productValidation = Joi.object({
   name: Joi.string().trim().min(2).max(100).required(),
@@ -44,8 +44,7 @@ export const validateProductSchema = (schema) => (req, res, next) => {
 
 // Validation & middleware for updation in product
 
-import Joi from "joi";
-import ApiError from "../../utils/ApiError.utility.js";
+
 
 export const productUpdateValidation = Joi.object({
   name: Joi.string().trim().min(2).max(100).optional(),

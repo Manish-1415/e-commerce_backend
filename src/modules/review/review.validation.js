@@ -1,5 +1,5 @@
 import Joi from "joi";
-import ApiError from "../../utils/ApiError.utility";
+import ApiError from "../../utils/ApiError.utility.js";
 
 export const reviewValidation = Joi.object({
 //   product: Joi.string().hex().length(24).required(),

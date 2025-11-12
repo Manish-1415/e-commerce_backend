@@ -8,17 +8,17 @@ import {
   getAllProducts,
   getProductById,
   updateProduct,
-} from "./product.controller";
-import verifyUser from "../../middlewares/jwt.middleware";
-import verifyProductManipulation from "../../middlewares/product.middleware";
+} from "./product.controller.js";
+import verifyUser from "../../middlewares/jwt.middleware.js";
+import verifyProductManipulation from "../../middlewares/product.middleware.js";
 import {
   productUpdateValidation,
   productUpdationMiddleware,
   productValidation,
   validateProductSchema,
-} from "./product.validation";
+} from "./product.validation.js";
 
-import { upload } from "../../middlewares/multer.middleware";
+import { upload } from "../../middlewares/multer.middleware.js";
 
 router.post(
   "/",

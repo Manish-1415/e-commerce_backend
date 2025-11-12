@@ -1,8 +1,8 @@
 import { Router } from "express";
-import verifyUser from "../../middlewares/jwt.middleware";
-import checkUserRole from "../../middlewares/checkIfRoleIsUser.middleware";
-import { orderValidationMiddleware } from "./order.validation";
-import { cancelTheOrder, createOrder, getAllOrders, getSpecificOrder } from "./order.controller";
+import verifyUser from "../../middlewares/jwt.middleware.js";
+import checkUserRole from "../../middlewares/checkIfRoleIsUser.middleware.js";
+import { orderValidationMiddleware } from "./order.validation.js";
+import { cancelTheOrder, createOrder, getAllOrders, getSpecificOrder } from "./order.controller.js";
 
 const router = Router();
 
